@@ -132,14 +132,13 @@ function App() {
     });
   };
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <div className="px-1 md:px-6 py-6 sm:px-16 items-center">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="space-y-8">
+        <div className="items-center">
           <canvas
             id="canvas"
             className="border-4 border-dashed border-gray-200 rounded-lg box-border h-80 w-80 md:h-96 md:w-96 "
           ></canvas>
-          {/* <div className="border-4 border-dashed border-gray-200 rounded-lg box-border h-80 w-80 md:h-96 md:w-96 "></div> */}
         </div>
       </div>
       {/* Toolbar start */}
