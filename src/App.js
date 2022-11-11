@@ -25,6 +25,8 @@ function renderIcon(icon) {
 
 function App() {
   const [canvas, setCanvas] = useState("");
+  const [grid, toggleGrid] = useState(false);
+  const [gridGroup, toggleGridGroup] = useState(null);
   useEffect(() => {
     //Set canvas dimensions:
     let canvas_width;
@@ -67,6 +69,36 @@ function App() {
       cornerSize: 24
     });
   }, []);
+
+  const addGrid = () => {
+    if (gridGroup) return;
+    var gridsize = 5;
+    var gridoption = {
+      stroke: "#000000",
+      strokeWidth: 1,
+      strokeDashArray: [5, 5]
+    };
+    var gridLines = [];
+    for (var x = 1; x < (canvas.width); x += 100) {
+      gridLines.push(new fabric.Line([x, 0, x, canvas.width], gridoption));
+    }
+    for (var x = 1; x < (canvas.height); x += 100) {
+      gridLines.push(new fabric.Line([0, x, canvas.height, x], gridoption));
+    }
+    let _gridGroup = new fabric.Group(gridLines, {
+      selectable: false,
+      evented: false
+    });
+    toggleGridGroup(
+      _gridGroup
+    );
+    _gridGroup.addWithUpdate();
+    canvas.add(_gridGroup);
+  }
+  const removeGrid = () => {
+    gridGroup && canvas.remove(gridGroup);
+    toggleGridGroup(null)
+  }
 
   const deleteObject = (eventData, target) => {
     var canvas = target.target.canvas;
@@ -265,6 +297,48 @@ function App() {
                 <line x1="12" y1="15" x2="12" y2="3"></line>
               </svg>
             </button>
+          
+          {
+            grid?
+            <button
+            title="Hide Grid"
+            onClick={() => {removeGrid(); toggleGrid(false);}}
+          >
+            <svg
+            className="ml-2 mr-2"
+            width="24"
+            height="24"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor">
+              <path strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"
+            />
+            </svg>
+          </button>:
+            <button
+            title="Show Grid"
+            onClick={() =>{ addGrid(); toggleGrid(true);}}
+          >
+            <svg
+            className="ml-2 mr-2"
+            fill="none"
+            viewBox="0 0 24 24"
+            width="24"
+            height="24"
+            stroke="currentColor">
+              <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
+              />
+              </svg>
+          </button>
+
+          }
           </div>
         </div>
       </div>
